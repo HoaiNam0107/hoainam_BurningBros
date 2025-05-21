@@ -20,8 +20,8 @@ Internet connection for API calls
 Setup Instructions
 
 Clone the Repository:
-git clone <repository-url>
-cd flutter_product_list
+git clone https://github.com/HoaiNam0107/hoainam_BurningBros.git
+cd burning_test
 
 
 Install Dependencies:
