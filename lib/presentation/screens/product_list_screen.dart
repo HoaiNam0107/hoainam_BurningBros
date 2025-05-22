@@ -1,4 +1,3 @@
-import 'package:burning_test/presentation/screens/widgets/no_more_products.dart';
 import 'package:burning_test/presentation/screens/widgets/product_app_bar.dart';
 import 'package:burning_test/presentation/screens/widgets/product_list_view.dart';
 import 'package:burning_test/presentation/screens/widgets/search_bar.dart';

@@ -22,6 +22,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.7.0"
+  animate_do:
+    dependency: "direct main"
+    description:
+      name: animate_do
+      sha256: e5c8b92e8495cba5adfff17c0b017d50f46b2766226e9faaf68bc08c91aef034
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.0"
   args:
     dependency: transitive
     description:
@@ -222,6 +230,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.7"
+  dartz:
+    dependency: "direct main"
+    description:
+      name: dartz
+      sha256: e6acf34ad2e31b1eb00948692468c30ab48ac8250e0f0df661e29f12dd252168
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.1"
   dbus:
     dependency: transitive
     description:

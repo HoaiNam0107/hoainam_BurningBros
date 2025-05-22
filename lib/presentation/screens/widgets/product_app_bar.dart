@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../favorites_screen.dart';
+import '../login/login_screen.dart';
 
 class ProductAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ProductAppBar({super.key});
@@ -19,6 +20,16 @@ class ProductAppBar extends StatelessWidget implements PreferredSizeWidget {
               MaterialPageRoute(
                 builder: (context) => const FavoritesScreen(),
               ),
+            );
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (Route<dynamic> route) => false,
             );
           },
         ),

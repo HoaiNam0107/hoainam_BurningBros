@@ -1,9 +1,10 @@
 import 'package:burning_test/presentation/bloc/product/product_bloc.dart';
-import 'package:burning_test/presentation/screens/cupertion_sheet_router.dart';
-import 'package:burning_test/presentation/screens/example.dart';
+import 'package:burning_test/presentation/screens/login/login_screen.dart';
+import 'package:burning_test/presentation/screens/test_version/cupertion_sheet_router.dart';
+import 'package:burning_test/presentation/screens/test_version/example.dart';
 import 'package:burning_test/presentation/screens/product_list_screen.dart';
-import 'package:burning_test/presentation/screens/test_widget.dart';
-import 'package:burning_test/presentation/screens/home.dart';
+import 'package:burning_test/presentation/screens/test_version/test_widget.dart';
+import 'package:burning_test/presentation/screens/test_version/home.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,7 +47,11 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Product List',
           theme: ThemeData(primarySwatch: Colors.blue),
-          home: ProductListScreen(),
+          initialRoute: '/login',
+          routes: {
+            '/login': (context) => const LoginScreen(),
+            '/productList': (context) => const ProductListScreen(),
+          },
         ),
       ),
     );
