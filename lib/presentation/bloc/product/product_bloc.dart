@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../data/isolate/product_isolate.dart';
 import '../../../domain/entities/product.dart';
 import '../../../domain/usecases/fetch_products.dart';
 import '../../../domain/usecases/search_products.dart';
@@ -9,17 +10,6 @@ import 'product_event.dart';
 import 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  final FetchProducts fetchProducts;
-  final SearchProducts searchProducts;
-  final ToggleFavorite toggleFavorite;
-  final GetFavorites getFavorites;
-  final List<Product> _products = [];
-  bool _hasMore = true;
-  String _searchQuery = '';
-  Timer? _debounce;
-  int _skip = 0;
-  static const int _limit = 20;
-
   ProductBloc({
     required this.fetchProducts,
     required this.searchProducts,
@@ -31,6 +21,17 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<ToggleFavoriteEvent>(_onToggleFavorite);
   }
 
+  final FetchProducts fetchProducts;
+  final SearchProducts searchProducts;
+  final ToggleFavorite toggleFavorite;
+  final GetFavorites getFavorites;
+  final List<Product> _products = [];
+  bool _hasMore = true;
+  String _searchQuery = '';
+  Timer? _debounce;
+  int _skip = 0;
+  static const int _limit = 20;
+
   Future<void> _onFetchProducts(
     FetchProductsEvent event,
     Emitter<ProductState> emit,
@@ -41,8 +42,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       if (_products.isEmpty) {
         emit(ProductLoading());
       }
-      final newProducts = await fetchProducts(_skip, _limit);
-      final favorites = await getFavorites();
+
+      final newProducts = await fetchProductsIsolate({
+        'fetchProducts': fetchProducts,
+        'skip': _skip,
+        'limit': _limit,
+      });
+
+      final favorites = await getFavoritesIsolate(getFavorites);
+
       if (newProducts.isEmpty) {
         _hasMore = false;
       } else {
@@ -85,8 +93,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         _skip = 0;
         add(FetchProductsEvent());
       } else {
-        final products = await searchProducts(event.query);
-        final favorites = await getFavorites();
+        final products = await searchProductsIsolate({
+          'searchProducts': searchProducts,
+          'query': event.query,
+        });
+
+        final favorites = await getFavoritesIsolate(getFavorites);
+
         emit(
           ProductLoaded(
             products: products,
@@ -106,8 +119,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ) async {
     final currentState = state;
     if (currentState is ProductLoaded) {
-      await toggleFavorite(event.product);
-      final favorites = await getFavorites();
+      final favorites = await toggleFavoriteIsolate({
+        'toggleFavorite': toggleFavorite,
+        'getFavorites': getFavorites,
+        'product': event.product,
+      });
+
       emit(
         ProductLoaded(
           products: currentState.products,

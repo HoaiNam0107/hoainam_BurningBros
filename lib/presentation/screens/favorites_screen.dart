@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/product/product_bloc.dart';
@@ -30,12 +31,14 @@ class FavoritesScreen extends StatelessWidget {
                   child: ListTile(
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        product.thumbnail,
+                      child: CachedNetworkImage(
+                        imageUrl: product.thumbnail,
                         width: 50,
                         height: 50,
                         fit: BoxFit.cover,
-                        errorBuilder:
+                        placeholder:
+                            (context, url) => const CircularProgressIndicator(),
+                        errorWidget:
                             (context, error, stackTrace) =>
                                 const Icon(Icons.image_not_supported),
                       ),
